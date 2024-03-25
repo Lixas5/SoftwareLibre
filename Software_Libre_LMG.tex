@@ -1,0 +1,195 @@
+%Script to generate the document for the course "`Software libre"'
+%Made by Laura Matas-Granados
+
+
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,english]{babel}
+\usepackage{hyphenat}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{lscape}
+
+% This adjusts the underline to be in keeping with word processors.
+\usepackage{soul}
+\setul{.6pt}{.4pt}
+
+% The following sets margins to 1 in. on top and bottom and .75 in on left and right, and add line numbers.
+\usepackage{geometry}
+\geometry{vmargin={1in,1in}, hmargin={.75in, .75in}}
+\usepackage{fancyhdr}
+%\pagestyle{fancy}
+\pagenumbering{arabic}
+\renewcommand{\headrulewidth}{0.0pt}
+\renewcommand{\footrulewidth}{0.0pt}
+
+
+%%%%%%%%%%%%%
+% This styles the bibliography and citations.
+
+\usepackage[
+style=ext-authoryear-comp, 
+backend=biber,
+sorting=nyt,
+maxbibnames=10,
+maxcitenames=2,
+mincitenames=1,
+uniquelist= false,
+doi=false,
+url=false,
+isbn=false,
+giveninits=true]{biblatex}
+
+
+%Specific bibliography formatting
+\DefineBibliographyStrings{english}{%
+  page            = {:},
+  pages           = {:}
+} 
+\usepackage{xpatch}
+% No dot before number of articles
+\xpatchbibmacro{volume+number+eid}{%
+  \setunit*{\adddot}%
+}{%
+}{}{}
+% Number of articles in parentheses
+\DeclareFieldFormat[article]{number}{\mkbibparens{#1}}
+%%%To ennumerate the bibliography if needed
+%\defbibenvironment{bibliography}
+%  {\begin{enumerate}}
+%  {\end{enumerate}}
+%  {\item}
+%Used to remove the comma just after the volume and issue, although this takes away punctuation before pages
+\renewcommand*{\bibpagespunct}{}
+%Removing the In: for articles
+\renewbibmacro{in:}{%
+  \ifentrytype{article}{}{\printtext{\bibstring{in}\intitlepunct}}}
+%Formatting editors
+\DeclareNameAlias{editorin}{first-last}
+\newbibmacro*{byeditor:in}{%
+  \ifnameundef{editor}
+    {}
+    {\printnames[editorin]{editor}%
+     \addspace\bibsentence%
+     \mkbibparens{\usebibmacro{editorstrg}}%
+     \clearname{editor}%
+     \printunit{\addcomma\space}}}
+\xpatchbibdriver{inbook}
+  {\usebibmacro{in:}%
+   \usebibmacro{bybookauthor}%
+   \newunit\newblock
+   \usebibmacro{maintitle+booktitle}%
+   \newunit\newblock
+   \usebibmacro{byeditor+others}}
+  {\usebibmacro{in:}%
+   \usebibmacro{bybookauthor}%
+   \newunit\newblock
+   \usebibmacro{byeditor:in}%
+   \newunit\newblock
+   \usebibmacro{maintitle+booktitle}%
+   \newunit\newblock
+   \usebibmacro{byeditor+others}}
+  {}{}
+\xpatchbibdriver{incollection}
+  {\usebibmacro{in:}%
+   \usebibmacro{maintitle+booktitle}%
+   \newunit\newblock
+   \usebibmacro{byeditor+others}}
+  {\usebibmacro{in:}%
+   \usebibmacro{byeditor:in}%
+   \setunit{\labelnamepunct}\newblock
+   \usebibmacro{maintitle+booktitle}%
+   \newunit\newblock
+   \usebibmacro{byeditor}}
+  {}{}
+\xpatchbibdriver{inproceedings}
+  {\usebibmacro{in:}%
+   \usebibmacro{maintitle+booktitle}%
+   \newunit\newblock
+   \usebibmacro{event+venue+date}%
+   \newunit\newblock
+   \usebibmacro{byeditor+others}}
+  {\usebibmacro{in:}%
+   \usebibmacro{byeditor:in}%
+   \setunit{\labelnamepunct}\newblock
+   \usebibmacro{maintitle+booktitle}%
+   \newunit\newblock
+   \usebibmacro{event+venue+date}%
+   \newunit\newblock
+   \usebibmacro{byeditor+others}}
+  {}{}
+% Surnames befores names
+\DeclareNameAlias{sortname}{last-first}
+% End of specific bibliography formatting
+
+
+% Path to references:
+
+\addbibresource{C:/Users/Laura/OneDrive - UAM/Documentos/Escritorio/Laura_ONEDRIVE/Doctorado/Bibliografia_LATEX/Mi biblioteca.bib}
+
+\DeclareBibliographyCategory{cited}
+\AtEveryCitekey{\addtocategory{cited}{\thefield{entrykey}}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+
+\section*{\centering Resumen ideas curso ''Software Libre para tu carrera investigadora''}
+
+Trabajo realizado por: \textbf{Laura Matas-Granados} (laura.matasg@estudiante.uam.es).
+
+\hspace{10mm}
+
+El objetivo del presente trabajo es la recopilación de los principales puntos discutidos en la cláusura del curso ''Software Libre para tu carrera investigadora'', impartido en la Universidad Autónoma de Madrid: Específicamente se expondrán:
+
+\begin{enumerate}
+  \item El beneficio que tiene el uso de software libre para nosotras como usuarias, para nuestra carrera investigadora y para la universdidad en su conjunto.
+  \item Las barreras que mergen del uso de software libre.
+  \item Potenciales soluciones a las barreras/problemas.
+\end{enumerate}
+Para demostrar la efectividad del uso de software libre, el trabajo se ha realizado mediante LaTeX. El código para reproducir el documento se encuentra subido en mi repositorio de GitHub: 
+
+\subsection*{Software Libre: definición y resumen personal curso}
+
+El \textbf{Software Libre} es todo aquel software que permita a las personas usuarias ejecutar, copiar, distribuir, estudiar, modificar y mejorar el software \parencite{free_software_foundation_what_nodate}.
+
+\hspace{10mm}
+
+En el curso aprendimos a manejar algunos programas y entornos que utilizan Software Libre, como Zotero, Overleaf o Git. Asimismo, se reflexionó sobre el uso del Software Libre, con especial enfoque en sus ventajas y, desde un punto de vista más filosófico, qué aporta el uso de una herramienta pública al pensamiento de la sociedad. En la Tabla \ref{tbl:table} se resumen los aspectos más importantes que se comentaron en el cierre del curso. 
+
+
+\begin{table}[H]
+	\centering
+	\small
+	\caption{\raggedright Resumen principales aspectos comentados en la puesta común final.}
+	\label{tbl:table}
+	\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{p{0.3\linewidth} p{0.3\linewidth} p{0.3\linewidth}}  \toprule
+\textbf{Aportaciones} & \textbf{Barreras/Problemas} & \textbf{Potenciales soluciones} \\ \toprule
+Posicionamiento político, boicot a la privacidad y las grandes empresas & Falta información si no se sabe dónde buscar & Ampliar oferta cursos formativos \\
+\cmidrule(0.05pt){1-3}
+Mayor facilidad colaboración con otros grupos & Difícil traspaso conocimiento entre generaciones anteriores y presentes & Formación tanto para predocs como para supervisores \\
+\cmidrule(0.05pt){1-3}
+Mayor autonomía (resolución de errores) & Poco amigable la configuración y modificación si tu ámbito está alejado de la programación & Presión hacia la universidad para promocionar software libre y eliminación de licencias \\
+\cmidrule(0.05pt){1-3}
+Independencia de grandes empresa (ahorro dinero al no comprar licencias) & Curva de aprendizaje es escarpada (muy difícil el aprendizaje al principio) & Divulgación del trabajo realizado con software libre \\
+
+
+\bottomrule
+\end{tabularx}
+\end{table}
+
+
+\newpage
+
+
+\printbibliography
+
+
+
+\end{document}
